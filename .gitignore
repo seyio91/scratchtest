@@ -1,0 +1,7 @@
+node_modules
+.env
+env_compose
+Dockerfile
+.docker/
+k8s/
+temp.yaml

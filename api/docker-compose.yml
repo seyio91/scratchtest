@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  web:
+    # build:
+    #   context: .
+    image: scratchpay
+    restart: always
+    ports:
+      - 3000:3000
+    env_file:
+      - "./env_compose"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    env_file:
+      - "./env_compose"
+
+  seeder:
+    image: scratchpay
+    restart: "no"
+    env_file:
+      - "./env_compose"
+    command: node /app/data/seeder.js
+    depends_on:
+      - postgres

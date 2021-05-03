@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "scratchapi.dbservicename" . }}
+  labels:
+    {{- include "scratchapi.dbLabels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-2"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  type: {{ .Values.backend.serviceType }}
+  ports:
+    - port: {{ .Values.database.servicePort }}
+      targetPort: {{ .Values.database.containerPort }}
+  selector:
+    {{- include "scratchapi.dbSelectorLabels" . | nindent 4 }}

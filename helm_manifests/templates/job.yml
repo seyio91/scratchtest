@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "scratchapi.deploymentname" . }}-job
+  labels:
+    {{- include "scratchapi.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-job
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["node", "/app/data/seeder.js"]
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ include "scratchapi.dbservicename" . }}"
+            - name: POSTGRES_PORT
+              value: "{{ .Values.database.servicePort }}"
+            - name: POSTGRES_DB
+              value: "{{ .Values.database.dbName }}"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: db_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: db_password
+          volumeMounts:
+          - name: csv-loader
+            mountPath: /app/data/data.csv
+            readOnly: true
+            subPath: data.csv
+      volumes:
+        - name: csv-loader
+          configMap:
+            name: {{ .Release.Name }}-configmap
