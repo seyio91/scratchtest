@@ -7,6 +7,10 @@ Get a User: GET /api/v1/users/:id
 
 Configuration File: helm_manifests/value.yaml
 
+Accessing the service:
+
+    kubectl port-forward svc/scratch-service 8080:80
+
 To Run:
 Build Image
 cd api && docker build -t <yourimagename> .
