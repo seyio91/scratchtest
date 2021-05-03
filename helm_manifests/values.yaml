@@ -4,7 +4,7 @@ projectname: test
 database:
   containerPort: "5432"
   image:
-    repository: seyio91.azurecr.io/postgres
+    repository: postgres
     tag: latest
     pullPolicy: IfNotPresent
   tier: database
@@ -16,7 +16,7 @@ database:
 backend:
   containerPort: 3000
   image: 
-    repository: seyio91.azurecr.io/scratchapi
+    repository: seyio/scratchapi
     tag: v1
     pullPolicy: IfNotPresent
   tier: backend
