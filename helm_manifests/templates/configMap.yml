@@ -7,7 +7,6 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-4"
-    "helm.sh/hook-delete-policy": hook-succeeded
 data:
   data.csv: |-
 {{ .Files.Get "data.csv" | indent 4}}
