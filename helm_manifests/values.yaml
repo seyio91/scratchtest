@@ -4,7 +4,7 @@ projectname: test
 database:
   containerPort: "5432"
   image:
-    repository: seyio91.azurecr.io/postgres
+    repository: postgres
     tag: latest
     pullPolicy: IfNotPresent
   tier: database
@@ -14,13 +14,13 @@ database:
   dbName: scratchdb
 
 backend:
-  containerPort: 3000
+  containerPort: "3000"
   image: 
-    repository: seyio91.azurecr.io/scratchapi
+    repository: seyio/scratchapi
     tag: v1
     pullPolicy: IfNotPresent
   tier: backend
-  servicePort: 80
+  servicePort: "80"
   serviceType: ClusterIP
   replicaCount: 1
   # serviceType: NodePort
@@ -41,5 +41,5 @@ secretsMap:
   db_username: mydbuser
   db_password: somerandompassword
 
-imagePullSecrets:
-  - name: regcred
+# imagePullSecrets:
+#   - name: regcred

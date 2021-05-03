@@ -9,7 +9,7 @@ metadata:
     "helm.sh/hook-weight": "-1"
     # "helm.sh/hook-delete-policy": hook-succeeded
 spec:
-  backoffLimit: 2
+  backoffLimit: 5
   template:
     spec:
       restartPolicy: Never
