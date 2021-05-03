@@ -24,11 +24,11 @@ spec:
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           env:
             - name: POSTGRES_HOST
-              value: {{ include "scratchapi.dbservicename" . }}
+              value: "{{ include "scratchapi.dbservicename" . }}"
             - name: POSTGRES_PORT
-              value: {{ .Values.database.servicePort }}
+              value: "{{ .Values.database.servicePort }}"
             - name: POSTGRES_DB
-              value: {{ .Values.database.dbName }}
+              value: "{{ .Values.database.dbName }}"
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
