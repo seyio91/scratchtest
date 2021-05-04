@@ -1,6 +1,6 @@
 node_modules
 .env
-env_compose
+env_compose 
 .docker/
 k8s/
 temp.yaml
