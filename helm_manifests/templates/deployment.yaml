@@ -18,10 +18,18 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            privileged: false
+            allowPrivilegeEscalation: false
           env:
             - name: POSTGRES_HOST
               value: "{{ include "scratchapi.dbservicename" . }}"
