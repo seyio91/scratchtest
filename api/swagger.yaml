@@ -1,10 +1,9 @@
 swagger: "2.0"
 info:
-  title: User API
+  title: User API v1
   description: A Very Simple User API
   version: 1.0.0
-# host: localhost:3000
-basePath: /
+basePath: /api/v1
 schemes:
   - http
 paths:
